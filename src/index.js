@@ -14,18 +14,6 @@ const App = () => {
     <div className="jumbotron">
     <SiteHeader />      {/* New Header  */}
       <div className="container-fluid">
-        <ul className="navbar-nav text-black">
-          <li className="nav-item">
-            <Link className="nav-link " to="/">
-              Home
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link " to="/movies/favorites">
-              Favorites
-            </Link>
-          </li>
-        </ul>
         <Switch>
           <Route exact path="/movies/favorites" component={FavoriteMoviesPage} />
           <Route path="/movies/:id" component={MoviePage} />
