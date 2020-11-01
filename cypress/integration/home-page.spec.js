@@ -82,6 +82,7 @@ describe("Home Page ", () => {
         const selectedGenreText = "Comedy";
         const matchingMovies = filterByGenre(filterByTitle(movies, searchString), selectedGenreId);
         cy.get("select").select(selectedGenreText); 
+        cy.get("input").clear().type(searchString);
         cy.get(".card").should("have.length", matchingMovies.length);
         cy.get(".card").each(($card, index) => {
           cy.wrap($card)
