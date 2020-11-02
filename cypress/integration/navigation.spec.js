@@ -34,7 +34,7 @@ describe("Navigation", () => {
       cy.url().should("include", `/movies/${movies[1].id}`);
       cy.get("h2").contains(movies[1].title);
     });
-    it.only("should allow navigation from site header", () => {
+    it("should allow navigation from site header", () => {
       cy.get("nav").find("li").eq(2).find("a").click();
       cy.url().should("include", `/favorites`);
       cy.get("h2").contains("Favorite Movies");
@@ -45,6 +45,24 @@ describe("Navigation", () => {
       cy.get("nav.navbar-brand").find("a").click();
       cy.url().should("not.include", `/favorites`);
       cy.get("h2").contains("Discover Movies");
+    });
+  });
+
+  describe("From the Movie Details page ", () => {
+    beforeEach(() => {
+      cy.visit(`/movies/${movieId}`);
+    });
+    it("should change browser URL when show/hide reviews is clicked", () => {
+      cy.contains("Show Reviews").click();
+      cy.url().should("include", `/movies/${movieId}/reviews`);
+      cy.contains("Hide Reviews").click();
+      cy.url().should("not.include", `/movies/${movieId}/reviews`);
+    });
+    it("navigate to the full review page when a 'Full Review' link is clicked", () => {
+      cy.contains("Show Reviews").click();
+      cy.url().should("include", `/movies/${movieId}/reviews`);
+      cy.contains("Full Review").click();
+      cy.url().should("include", `/reviews/`);
     });
   });
 
