@@ -11,6 +11,12 @@ const reducer = (state, action) => {
           m.id === action.payload.movie.id ? { ...m, favorite: true } : m
         ),
       };
+    case "add-review":
+      return {
+        movies: state.movies.map((m) =>
+          m.id === action.payload.movie.id ? { ...m, review: action.payload.review } : m
+        ),
+      };  
     case "load":
       return { movies: action.payload.movies };
     case "add-review":
@@ -30,8 +36,9 @@ const MoviesContextProvider = (props) => {
   };
 
   const addReview = (movie, review) => {
-     // Completed in next section
-  };
+    dispatch({ type: "add-review", payload: { movie, review } });
+  }; 
+  
   useEffect(() => {
     getMovies().then((movies) => {
       dispatch({ type: "load", payload: { movies } });
