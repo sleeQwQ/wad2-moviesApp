@@ -1,4 +1,5 @@
 let movies;
+let upcoming;
 const movieId = 497582; // Enola Holmes movie id
 let reviews;
 
@@ -23,6 +24,15 @@ describe("Navigation", () => {
         console.log(response);
         reviews = response.results;
       });
+    cy.request(
+      `https://api.themoviedb.org/3/movie/upcoming?api_key=${Cypress.env(
+        "TMDB_KEY"
+      )}&language=en-US&page=1`
+    )
+      .its("body")
+      .then((response) => {
+        upcoming = response.results;
+      });
   });
 
   describe("From the home page", () => {
@@ -41,6 +51,9 @@ describe("Navigation", () => {
       cy.get("nav").find("li").eq(1).find("a").click();
       cy.url().should("not.include", `/favorites`);
       cy.get("h2").contains("Upcoming Movies");
+      cy.get("nav").find("li").eq(3).find("a").click();
+      cy.url().should("include", `/watchlist`);
+      cy.get("h2").contains("Watch List");
       cy.get("nav").find("li").eq(2).find("a").click();
       cy.get("nav.navbar-brand").find("a").click();
       cy.url().should("not.include", `/favorites`);
@@ -96,6 +109,18 @@ describe("Navigation", () => {
       cy.get("svg[data-icon=arrow-circle-left]").click();
       cy.url().should("include", `movies/favorites`);
       cy.get("h2").contains("Favorite Movies");
+    });
+  });
+  describe("From the Watch List page", () => {
+    beforeEach(() => {
+      cy.visit("/movies/upcoming");
+      cy.get(".card").eq(0).find("button").click();
+      cy.get("nav").find("li").eq(3).find("a").click();
+    });
+    it("should navigate to the movies detail page and change the browser URL", () => {
+      cy.get(".card").eq(0).find("img").click();
+      cy.url().should("include", `/movies/${upcoming[0].id}`);
+      cy.get("h2").contains(upcoming[0].title);
     });
   });
 });
