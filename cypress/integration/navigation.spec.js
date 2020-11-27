@@ -63,7 +63,10 @@ describe("Navigation", () => {
 
   describe("From the Movie Details page ", () => {
     beforeEach(() => {
-      cy.visit(`/movies/${movieId}`);
+      cy.visit("/");
+      const searchString = 'Enola Holmes'
+      cy.get("input").clear().type(searchString) ;
+      cy.get(".card").eq(0).find("img").click();
     });
     it("should change browser URL when show/hide reviews is clicked", () => {
       cy.contains("Show Reviews").click();
@@ -113,7 +116,8 @@ describe("Navigation", () => {
   });
   describe("From the Watch List page", () => {
     beforeEach(() => {
-      cy.visit("/movies/upcoming");
+      cy.visit("/");
+      cy.get("nav").find("li").eq(1).find("a").click();
       cy.get(".card").eq(0).find("button").click();
       cy.get("nav").find("li").eq(3).find("a").click();
     });

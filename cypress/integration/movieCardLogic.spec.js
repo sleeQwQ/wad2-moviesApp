@@ -39,7 +39,8 @@ describe("MovieCardLogic", () => {
     });
     describe("Watch List buttons", () => {
         beforeEach(() => {
-          cy.visit("/movies/upcoming");
+          cy.visit("/");
+          cy.get("nav").find("li").eq(1).find("a").click();
         });
         it("should remove the film from upcoming page after add to watch list", () => {
           cy.get(".card").eq(0).find(".card-title").should("have.text",upcoming[0].title);
