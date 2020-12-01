@@ -11,7 +11,10 @@ import SiteHeader from './components/siteHeader';
 import UpcomingMoviesPage from './pages/upcomingMoviesPage';
 import MoviesContextProvider from "./contexts/moviesContext";
 import GenresContextProvider from "./contexts/genresContext";
-import AddMovieReviewPage from './pages/addMovieReviewPage'
+import AddMovieReviewPage from './pages/addMovieReviewPage';
+import NowplayingPage from './pages/nowPlayingPage';
+import LatestPage from './pages/latestPage';
+import TopRatedPage from './pages/topRatedPage';
 
 const App = () => {
   return (
@@ -24,6 +27,9 @@ const App = () => {
             <Switch>
               <Route exact path="/reviews/form" component={AddMovieReviewPage} />
               <Route path="/reviews/:id" component={MovieReviewPage} />
+              <Route exact path="/movies/nowPlaying" component={NowplayingPage} />
+              <Route exact path="/movies/latest" component={LatestPage} />
+              <Route exact path="/movies/topRated" component={TopRatedPage} />
               <Route exact path="/movies/upcoming" component={UpcomingMoviesPage} />
               <Route exact path="/movies/favorites" component={FavoriteMoviesPage} />
               <Route exact path="/movies/watchlist" component={WatchListPage} />
