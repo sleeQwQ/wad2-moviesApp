@@ -36,6 +36,7 @@ bundle_app:
 e2etest:    
   stage: test
   only: 
+    - develop
     - master
     - staging
   before_script:
