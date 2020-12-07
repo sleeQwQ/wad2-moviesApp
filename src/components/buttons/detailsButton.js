@@ -4,6 +4,7 @@ const DetailsButton = ({ movie }) => {
   
     const handleDetails = e => {
       e.preventDefault();
+      window.location.href = `/movies/${movie.id}`;
     };
     return (
       <button
