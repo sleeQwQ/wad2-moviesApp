@@ -2,6 +2,8 @@ let movies;
 let upcoming;
 const movieId = 577922; // Tenet movie id
 let reviews;
+let playing;
+let topRated;
 
 describe("Navigation", () => {
   before(() => {
@@ -33,6 +35,24 @@ describe("Navigation", () => {
       .then((response) => {
         upcoming = response.results;
       });
+    cy.request(
+      `https://api.themoviedb.org/3/movie/now_playing?api_key=${Cypress.env(
+        "TMDB_KEY"
+      )}&language=en-US&page=1`
+    )
+      .its("body")
+      .then((response) => {
+        playing = response.results;
+      });
+    cy.request(
+      `https://api.themoviedb.org/3/movie/top_rated?api_key=${Cypress.env(
+        "TMDB_KEY"
+      )}&language=en-US&page=1`
+    )
+      .its("body")
+      .then((response) => {
+        topRated = response.results;
+      });
   });
 
   describe("From the home page", () => {
@@ -45,6 +65,12 @@ describe("Navigation", () => {
       cy.get("h2").contains(movies[1].title);
     });
     it("should allow navigation from site header", () => {
+      cy.get("nav").find("li").eq(1).find("a").click();
+      cy.url().should("include", `/nowPlaying`);
+      cy.get("h2").contains("Now Playing Movies");
+      cy.get("nav").find("li").eq(3).find("a").click();
+      cy.url().should("include", `/topRated`);
+      cy.get("h2").contains("Top Rated Movies");
       cy.get("nav").find("li").eq(5).find("a").click();
       cy.url().should("include", `/favorites`);
       cy.get("h2").contains("Favorite Movies");
@@ -113,6 +139,44 @@ describe("Navigation", () => {
       cy.url().should("include", `movies/favorites`);
       cy.get("h2").contains("Favorite Movies");
     });
+    it("should navigate from upcoming page to movie details and back", () => {
+      cy.get("nav").find("li").eq(4).find("a").click();
+      cy.get(".card").eq(0).find("img").click();
+      cy.url().should("include", `/movies/${upcoming[0].id}`);
+      cy.get("h2").contains(upcoming[0].title);
+      cy.get("svg[data-icon=arrow-circle-left]").click();
+      cy.url().should("include", `movies/upcoming`);
+      cy.get("h2").contains("Upcoming Movies");
+    });
+    it("should navigate from watch list page to movie details and back", () => {
+      cy.get("nav").find("li").eq(4).find("a").click();
+      cy.get(".card").eq(0).find("button").click();
+      cy.get("nav").find("li").eq(6).find("a").click();
+      cy.get(".card").eq(0).find("img").click();
+      cy.url().should("include", `/movies/${upcoming[0].id}`);
+      cy.get("h2").contains(upcoming[0].title);
+      cy.get("svg[data-icon=arrow-circle-left]").click();
+      cy.url().should("include", `movies/watchlist`);
+      cy.get("h2").contains("Watch List");
+    });
+    it("should navigate from now playing page to movie details and back", () => {
+      cy.get("nav").find("li").eq(1).find("a").click();
+      cy.get(".card").eq(0).find("button").click();
+      cy.url().should("include", `/movies/${playing[0].id}`);
+      cy.get("h2").contains(playing[0].title);
+      cy.get("svg[data-icon=arrow-circle-left]").click();
+      cy.url().should("include", `movies/nowPlaying`);
+      cy.get("h2").contains("Now Playing Movies");
+    });
+    it("should navigate from top rated page to movie details and back", () => {
+      cy.get("nav").find("li").eq(3).find("a").click();
+      cy.get(".card").eq(0).find("button").click();
+      cy.url().should("include", `/movies/${topRated[0].id}`);
+      cy.get("h2").contains(topRated[0].title);
+      cy.get("svg[data-icon=arrow-circle-left]").click();
+      cy.url().should("include", `movies/topRated`);
+      cy.get("h2").contains("Top Rated Movies");
+    });
   });
   describe("From the Watch List page", () => {
     beforeEach(() => {
@@ -125,6 +189,38 @@ describe("Navigation", () => {
       cy.get(".card").eq(0).find("img").click();
       cy.url().should("include", `/movies/${upcoming[0].id}`);
       cy.get("h2").contains(upcoming[0].title);
+    });
+  });
+  describe("From the Now Playing page", () => {
+    beforeEach(() => {
+      cy.visit("/");
+      cy.get("nav").find("li").eq(1).find("a").click();
+    });
+    it("should navigate to the movies detail page and change the browser URL", () => {
+      cy.get(".card").eq(0).find("img").click();
+      cy.url().should("include", `/movies/${playing[0].id}`);
+      cy.get("h2").contains(playing[0].title);
+    });
+    it("should navigate to the movies detail page when click on the button", () => {
+      cy.get(".card").eq(0).find("button").click();
+      cy.url().should("include", `/movies/${playing[0].id}`);
+      cy.get("h2").contains(playing[0].title);
+    });
+  });
+  describe("From the Top Rated page", () => {
+    beforeEach(() => {
+      cy.visit("/");
+      cy.get("nav").find("li").eq(3).find("a").click();
+    });
+    it("should navigate to the movies detail page and change the browser URL", () => {
+      cy.get(".card").eq(0).find("img").click();
+      cy.url().should("include", `/movies/${topRated[0].id}`);
+      cy.get("h2").contains(topRated[0].title);
+    });
+    it("should navigate to the movies detail page when click on the button", () => {
+      cy.get(".card").eq(0).find("button").click();
+      cy.url().should("include", `/movies/${topRated[0].id}`);
+      cy.get("h2").contains(topRated[0].title);
     });
   });
 });
