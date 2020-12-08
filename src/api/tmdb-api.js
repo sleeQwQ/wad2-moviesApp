@@ -38,12 +38,11 @@ export const getMovies = () => {
       .then(json => json.results);
   };
 
-  export const getLatestMovies = () => {
+  export const getLatestMovie = () => {
     return fetch(
       `https://api.themoviedb.org/3/movie/latest?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US`
     )
-      .then(res => res.json())
-      .then(json => json.results);
+      .then(res => res.json());
   };
 
   export const getPlayingMovies = () => {
