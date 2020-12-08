@@ -89,10 +89,7 @@ describe("Navigation", () => {
 
   describe("From the Movie Details page ", () => {
     beforeEach(() => {
-      cy.visit("/");
-      const searchString = 'Tenet'
-      cy.get("input").clear().type(searchString) ;
-      cy.get(".card").eq(0).find("img").click();
+      cy.visit(`/movies/${movieId}`);
     });
     it("should change browser URL when show/hide reviews is clicked", () => {
       cy.contains("Show Reviews").click();
