@@ -4,6 +4,7 @@ const movieId = 577922; // Tenet movie id
 let reviews;
 let playing;
 let topRated;
+let latest;
 
 describe("Navigation", () => {
   before(() => {
@@ -53,6 +54,15 @@ describe("Navigation", () => {
       .then((response) => {
         topRated = response.results;
       });
+    cy.request(
+      `https://api.themoviedb.org/3/movie/latest?api_key=${Cypress.env(
+        "TMDB_KEY"
+      )}&language=en-US`
+    )
+      .its("body")
+      .then((response) => {
+        latest = response;
+      });
   });
 
   describe("From the home page", () => {
@@ -68,6 +78,9 @@ describe("Navigation", () => {
       cy.get("nav").find("li").eq(1).find("a").click();
       cy.url().should("include", `/nowPlaying`);
       cy.get("h2").contains("Now Playing Movies");
+      cy.get("nav").find("li").eq(2).find("a").click();
+      cy.url().should("include", `/latest`);
+      cy.get("h2").contains("Fetching Latest Movie……");
       cy.get("nav").find("li").eq(3).find("a").click();
       cy.url().should("include", `/topRated`);
       cy.get("h2").contains("Top Rated Movies");
@@ -89,10 +102,7 @@ describe("Navigation", () => {
 
   describe("From the Movie Details page ", () => {
     beforeEach(() => {
-      cy.visit("/");
-      const searchString = 'Tenet'
-      cy.get("input").clear().type(searchString) ;
-      cy.get(".card").eq(0).find("img").click();
+      cy.visit(`/movies/${movieId}`);
     });
     it("should change browser URL when show/hide reviews is clicked", () => {
       cy.contains("Show Reviews").click();
@@ -221,6 +231,17 @@ describe("Navigation", () => {
       cy.get(".card").eq(0).find("button").click();
       cy.url().should("include", `/movies/${topRated[0].id}`);
       cy.get("h2").contains(topRated[0].title);
+    });
+  });
+  describe("The Latest page", () => {
+    beforeEach(() => {
+      cy.visit("/");
+      cy.get("nav").find("li").eq(2).find("a").click();
+    });
+    it("should navigate to the latest movie's detail page and change the browser URL", () => {
+      cy.wait(2000);
+      cy.url().should("include", `/movies/${latest.id}`);
+      cy.get("h2").contains(latest.title);
     });
   });
 });
