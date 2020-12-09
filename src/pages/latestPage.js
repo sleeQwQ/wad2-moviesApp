@@ -1,5 +1,6 @@
 import React ,{ useEffect, useState} from "react";
 import { getLatestMovie } from "../api/tmdb-api";
+import LoaderIcon from "../components/UIComponents/Loader";
 
 const MoviePage = () => {
 
@@ -19,7 +20,10 @@ const MoviePage = () => {
   },2000);
 
   return (
+    <div align="center">
     <h2 align="center">Fetching Latest Movie……</h2>   
+    <LoaderIcon></LoaderIcon>
+    </div>
   );
 };
 
