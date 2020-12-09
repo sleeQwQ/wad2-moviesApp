@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "../../globals/fontawesome";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./siteHeader.css";
+import Drawer from "../UIComponents/drawerNav";
 
 const SiteHeader = () => {
   return (
@@ -33,21 +34,6 @@ const SiteHeader = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link text-white" to="/movies/nowPlaying">
-              Now Playing
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link text-white" to="/movies/latest">
-              Latest
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link text-white" to="/movies/topRated">
-              Top Retad
-            </Link>
-          </li>
-          <li className="nav-item">
             <Link className="nav-link text-white" to="/movies/upcoming">
               Upcoming
             </Link>
@@ -58,9 +44,7 @@ const SiteHeader = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link text-white" to="/movies/watchlist">
-              Watch List
-            </Link>
+              <Drawer />
           </li>
         </ul>
       </nav>
