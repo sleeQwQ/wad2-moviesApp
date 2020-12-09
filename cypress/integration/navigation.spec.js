@@ -75,25 +75,36 @@ describe("Navigation", () => {
       cy.get("h2").contains(movies[1].title);
     });
     it("should allow navigation from site header", () => {
-      cy.get("nav").find("li").eq(1).find("a").click();
-      cy.url().should("include", `/nowPlaying`);
-      cy.get("h2").contains("Now Playing Movies");
       cy.get("nav").find("li").eq(2).find("a").click();
-      cy.url().should("include", `/latest`);
-      cy.get("h2").contains("Fetching Latest Movie……");
-      cy.get("nav").find("li").eq(3).find("a").click();
-      cy.url().should("include", `/topRated`);
-      cy.get("h2").contains("Top Rated Movies");
-      cy.get("nav").find("li").eq(5).find("a").click();
       cy.url().should("include", `/favorites`);
       cy.get("h2").contains("Favorite Movies");
-      cy.get("nav").find("li").eq(4).find("a").click();
+      cy.get("nav").find("li").eq(1).find("a").click();
       cy.url().should("not.include", `/favorites`);
       cy.get("h2").contains("Upcoming Movies");
-      cy.get("nav").find("li").eq(6).find("a").click();
+      cy.get("nav").find("li").eq(3).find("Button").click();
+      cy.get("div").find("li").eq(4).find("a").click();
+      cy.url().should("include", `/nowPlaying`);
+      cy.get("h2").contains("Now Playing Movies");
+      cy.get("nav").find("li").eq(3).find("Button").click();
+      cy.get("div").find("li").eq(5).find("a").click();
+      cy.url().should("include", `/latest`);
+      cy.get("h2").contains("Fetching Latest Movie……");
+      cy.wait(3000);
+      cy.get("nav").find("li").eq(0).find("a").click();
+      cy.get("nav").find("li").eq(3).find("Button").click();
+      cy.get("div").find("li").eq(6).find("a").click();
+      cy.url().should("include", `/topRated`);
+      cy.get("h2").contains("Top Rated Movies");
+      cy.get("nav").find("li").eq(3).find("Button").click();
+      cy.get("div").find("li").eq(7).find("a").click();
+      cy.url().should("not.include", `/favorites`);
+      cy.get("h2").contains("Upcoming Movies");
+      cy.get("nav").find("li").eq(3).find("Button").click();
+      cy.get("div").find("li").eq(9).find("a").click();
       cy.url().should("include", `/watchlist`);
       cy.get("h2").contains("Watch List");
-      cy.get("nav").find("li").eq(5).find("a").click();
+      cy.get("nav").find("li").eq(3).find("Button").click();
+      cy.get("div").find("li").eq(8).find("a").click();
       cy.get("nav.navbar-brand").find("a").click();
       cy.url().should("not.include", `/favorites`);
       cy.get("h2").contains("No. Movies");
@@ -121,7 +132,7 @@ describe("Navigation", () => {
     beforeEach(() => {
       cy.visit("/");
       cy.get(".card").eq(0).find("button").click();
-      cy.get("nav").find("li").eq(5).find("a").click();
+      cy.get("nav").find("li").eq(2).find("a").click();
     });
     it("should navigate to the movies detail page and change the browser URL", () => {
       cy.get(".card").eq(0).find("img").click();
@@ -141,7 +152,7 @@ describe("Navigation", () => {
     });
     it("should navigate from favorites page to movie details and back", () => {
       cy.get(".card").eq(0).find("button").click();
-      cy.get("nav").find("li").eq(5).find("a").click();
+      cy.get("nav").find("li").eq(2).find("a").click();
       cy.get(".card").eq(0).find("img").click();
       cy.url().should("include", `/movies/${movies[0].id}`);
       cy.get("h2").contains(movies[0].title);
@@ -150,7 +161,7 @@ describe("Navigation", () => {
       cy.get("h2").contains("Favorite Movies");
     });
     it("should navigate from upcoming page to movie details and back", () => {
-      cy.get("nav").find("li").eq(4).find("a").click();
+      cy.get("nav").find("li").eq(1).find("a").click();
       cy.get(".card").eq(0).find("img").click();
       cy.url().should("include", `/movies/${upcoming[0].id}`);
       cy.get("h2").contains(upcoming[0].title);
@@ -159,9 +170,10 @@ describe("Navigation", () => {
       cy.get("h2").contains("Upcoming Movies");
     });
     it("should navigate from watch list page to movie details and back", () => {
-      cy.get("nav").find("li").eq(4).find("a").click();
+      cy.get("nav").find("li").eq(1).find("a").click();
       cy.get(".card").eq(0).find("button").click();
-      cy.get("nav").find("li").eq(6).find("a").click();
+      cy.get("nav").find("li").eq(3).find("Button").click();
+      cy.get("div").find("li").eq(9).find("a").click();
       cy.get(".card").eq(0).find("img").click();
       cy.url().should("include", `/movies/${upcoming[0].id}`);
       cy.get("h2").contains(upcoming[0].title);
@@ -170,7 +182,8 @@ describe("Navigation", () => {
       cy.get("h2").contains("Watch List");
     });
     it("should navigate from now playing page to movie details and back", () => {
-      cy.get("nav").find("li").eq(1).find("a").click();
+      cy.get("nav").find("li").eq(3).find("Button").click();
+      cy.get("div").find("li").eq(4).find("a").click();
       cy.get(".card").eq(0).find("button").click();
       cy.url().should("include", `/movies/${playing[0].id}`);
       cy.get("h2").contains(playing[0].title);
@@ -179,7 +192,8 @@ describe("Navigation", () => {
       cy.get("h2").contains("Now Playing Movies");
     });
     it("should navigate from top rated page to movie details and back", () => {
-      cy.get("nav").find("li").eq(3).find("a").click();
+      cy.get("nav").find("li").eq(3).find("Button").click();
+      cy.get("div").find("li").eq(6).find("a").click();
       cy.get(".card").eq(0).find("button").click();
       cy.url().should("include", `/movies/${topRated[0].id}`);
       cy.get("h2").contains(topRated[0].title);
@@ -191,9 +205,10 @@ describe("Navigation", () => {
   describe("From the Watch List page", () => {
     beforeEach(() => {
       cy.visit("/");
-      cy.get("nav").find("li").eq(4).find("a").click();
+      cy.get("nav").find("li").eq(1).find("a").click();
       cy.get(".card").eq(0).find("button").click();
-      cy.get("nav").find("li").eq(6).find("a").click();
+      cy.get("nav").find("li").eq(3).find("Button").click();
+      cy.get("div").find("li").eq(9).find("a").click();
     });
     it("should navigate to the movies detail page and change the browser URL", () => {
       cy.get(".card").eq(0).find("img").click();
@@ -204,7 +219,8 @@ describe("Navigation", () => {
   describe("From the Now Playing page", () => {
     beforeEach(() => {
       cy.visit("/");
-      cy.get("nav").find("li").eq(1).find("a").click();
+      cy.get("nav").find("li").eq(3).find("Button").click();
+      cy.get("div").find("li").eq(4).find("a").click();
     });
     it("should navigate to the movies detail page and change the browser URL", () => {
       cy.get(".card").eq(0).find("img").click();
@@ -220,7 +236,8 @@ describe("Navigation", () => {
   describe("From the Top Rated page", () => {
     beforeEach(() => {
       cy.visit("/");
-      cy.get("nav").find("li").eq(3).find("a").click();
+      cy.get("nav").find("li").eq(3).find("Button").click();
+      cy.get("div").find("li").eq(6).find("a").click();
     });
     it("should navigate to the movies detail page and change the browser URL", () => {
       cy.get(".card").eq(0).find("img").click();
@@ -236,7 +253,8 @@ describe("Navigation", () => {
   describe("The Latest page", () => {
     beforeEach(() => {
       cy.visit("/");
-      cy.get("nav").find("li").eq(2).find("a").click();
+      cy.get("nav").find("li").eq(3).find("Button").click();
+      cy.get("div").find("li").eq(5).find("a").click();
     });
     it("should navigate to the latest movie's detail page and change the browser URL", () => {
       cy.wait(2000);
@@ -244,4 +262,4 @@ describe("Navigation", () => {
       cy.get("h2").contains(latest.title);
     });
   });
-});
+ });
