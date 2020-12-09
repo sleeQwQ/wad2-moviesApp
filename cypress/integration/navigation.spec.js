@@ -89,7 +89,7 @@ describe("Navigation", () => {
       cy.get("div").find("li").eq(5).find("a").click();
       cy.url().should("include", `/latest`);
       cy.get("h2").contains("Fetching Latest Movie……");
-      cy.wait(2500);
+      cy.wait(3000);
       cy.get("nav").find("li").eq(0).find("a").click();
       cy.get("nav").find("li").eq(3).find("Button").click();
       cy.get("div").find("li").eq(6).find("a").click();
