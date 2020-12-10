@@ -12,6 +12,13 @@ export default ({ movie }) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  try{
+    if (reviews.length === 0) {
+      throw new Error("No Review This movie");
+    }
+  } catch {}
+
   return (
     <table className="table table-striped table-bordered table-hover">
       <thead>

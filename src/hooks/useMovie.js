@@ -1,11 +1,18 @@
 import { useEffect, useState } from "react";
-import {getMovie} from '../api/tmdb-api'
+import {getMovie} from '../api/tmdb-api';
 
 const useMovie = id => {
   const [movie, setMovie] = useState(null);
   useEffect(() => {
     getMovie(id).then(movie => {
-      setMovie(movie);
+      try{
+        if(movie.title === undefined){
+          throw new Error("Invaild Movie Id");
+        }
+        setMovie(movie);
+      } catch(err) {
+        window.location.href = `/error/1`;
+      }    
     });
   }, [id]);
   return [movie, setMovie];
