@@ -21,7 +21,6 @@ export default ({ movie }) => {
     }
   } catch(err) {
     NoReviewText = "No Review This movie";
-    console.log(err);
   }
 
   return (
