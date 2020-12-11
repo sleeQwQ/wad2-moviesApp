@@ -3,11 +3,18 @@ import PageTemplate from '../components/templateMoviePage'
 import MovieReview from "../components/movieReview";
 
 const MovieReviewPage = (props) => {
-  return (
-      <PageTemplate movie={props.location.state.movie}>
-        <MovieReview review={props.location.state.review} /> 
-      </PageTemplate>
-  );
+  try{
+    if (props.location.state.movie === undefined) {
+      throw new Error("Invaild Review Id");
+    }
+    return (
+        <PageTemplate movie={props.location.state.movie}>
+          <MovieReview review={props.location.state.review} /> 
+        </PageTemplate>
+    );
+  } catch {
+    window.location.href = `/error/2`;
+  }
 };
 
 export default MovieReviewPage;

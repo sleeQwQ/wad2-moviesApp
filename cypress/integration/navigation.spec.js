@@ -1,7 +1,6 @@
 let movies;
 let upcoming;
 const movieId = 577922; // Tenet movie id
-let reviews;
 let playing;
 let topRated;
 let latest;
@@ -16,16 +15,6 @@ describe("Navigation", () => {
       .its("body")
       .then((response) => {
         movies = response.results;
-      });
-    cy.request(
-      `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${Cypress.env(
-        "TMDB_KEY"
-      )}`
-    )
-      .its("body")
-      .then((response) => {
-        console.log(response);
-        reviews = response.results;
       });
     cy.request(
       `https://api.themoviedb.org/3/movie/upcoming?api_key=${Cypress.env(

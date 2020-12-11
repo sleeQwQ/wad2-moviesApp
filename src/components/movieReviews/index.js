@@ -12,39 +12,54 @@ export default ({ movie }) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  var NoReviewText;
+
+  try{
+    if (reviews.length === 0) {
+      throw new Error("No Review This movie");
+    }
+  } catch(err) {
+    NoReviewText = "No Review This movie";
+    console.log(err);
+  }
+
   return (
-    <table className="table table-striped table-bordered table-hover">
-      <thead>
-        <tr>
-          <th scope="col">Author</th>
-          <th scope="col">Excerpt</th>
-          <th scope="col">More</th>
-        </tr>
-      </thead>
-      <tbody>
-        {reviews.map(r => {
-            return (
-              <tr key={r.id}>
-                <td>{r.author}</td>
-                <td>{excerpt(r.content)}</td>
-                <td>
-                  {" "}
-                  <Link
-                    to={{
-                      pathname: `/reviews/${r.id}`,
-                      state: {
-                        review: r,
-                        movie: movie
-                      }
-                    }}
-                  >
-                    Full Review
-                  </Link>
-                </td>
-              </tr>
-            );
-          })}
-      </tbody>
-    </table>
+    <div>
+      <table className="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Author</th>
+            <th scope="col">Excerpt</th>
+            <th scope="col">More</th>
+          </tr>
+        </thead>
+        <tbody>
+          {reviews.map(r => {
+              return (
+                <tr key={r.id}>
+                  <td>{r.author}</td>
+                  <td>{excerpt(r.content)}</td>
+                  <td>
+                    {" "}
+                    <Link
+                      to={{
+                        pathname: `/reviews/${r.id}`,
+                        state: {
+                          review: r,
+                          movie: movie
+                        }
+                      }}
+                    >
+                      Full Review
+                    </Link>
+                  </td>
+                </tr>
+              );
+            })}
+        </tbody>
+      </table>
+      <text>{NoReviewText}</text>
+    </div>
   );
 };
