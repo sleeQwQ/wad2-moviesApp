@@ -9,9 +9,10 @@ const MoviePage = () => {
     getLatestMovie().then(movie => {
         try{
             if(movie.id === undefined){
-              throw new Error("SomethingWrong……");
+              throw new Error("Something Wrong……");
+            } else {
+              setMovie(movie);
             }
-            setMovie(movie);
           } catch(err) {
             window.location.href = `/error/9`;
           }    

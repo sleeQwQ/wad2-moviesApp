@@ -41,6 +41,9 @@ e2etest:
   before_script:
     - npm install -g http-server
     - npm install cypress
+    - npm install semantic-ui-react semantic-ui-css
+    - npm install @material-ui/core
+    - npm install @material-ui/icons
   script:
     # start the server in the background
     - npm run start:ci

@@ -6,7 +6,7 @@ const useMovie = id => {
   useEffect(() => {
     getMovie(id).then(movie => {
       try{
-        if(movie.title === undefined){
+        if(movie.id === undefined){
           throw new Error("Invaild Movie Id");
         }
         setMovie(movie);
