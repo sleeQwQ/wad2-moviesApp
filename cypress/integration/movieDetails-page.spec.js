@@ -58,10 +58,12 @@ describe("Movie Details Page", () => {
         .should('include', movie.poster_path);
     });
 
-    // it("should dispaly its reviews", () => {
-    //   cy.contains("Show Reviews").click();
-    //   cy.get("tbody").get("tr").get("td").should("include", reviews.map(r => {return r.author}));
-    // });
+    it("should dispaly its reviews", () => {
+      cy.contains("Show Reviews").click();
+      reviews.map(r => {
+        cy.get("tbody").get("tr").get("td").contains(r.author);
+      })
+    });
   });
   describe("Movie with No Reviews", () => {
     beforeEach(() => {
