@@ -4,6 +4,7 @@ const movieId = 577922; // Tenet movie id
 let playing;
 let topRated;
 let latest;
+let similar;
 
 describe("Navigation", () => {
   before(() => {
@@ -51,6 +52,15 @@ describe("Navigation", () => {
       .its("body")
       .then((response) => {
         latest = response;
+      });
+    cy.request(
+      `https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=${Cypress.env(
+        "TMDB_KEY"
+      )}&language=en-US&page=1`
+    )
+      .its("body")
+      .then((response) => {
+        similar = response.results;
       });
   });
 
@@ -249,6 +259,26 @@ describe("Navigation", () => {
       cy.wait(2000);
       cy.url().should("include", `/movies/${latest.id}`);
       cy.get("h2").contains(latest.title);
+    });
+  });
+  describe("Similar Movie page", () => {
+    beforeEach(() => {
+      cy.visit(`/movies/${movieId}`);
+      cy.contains("SimilarMovies").click();
+    });
+    it("should navigate to the similar movie page and change the browser URL", () => {
+      cy.url().should("include", `/movies/${movieId}/similar`);
+      cy.get("h2").contains("Similar Movies");
+    });
+    it("should navigate to the movies detail page and change the browser URL", () => {
+      cy.get(".card").eq(0).find("img").click();
+      cy.url().should("include", `/movies/${similar[0].id}`);
+      cy.get("h2").contains(similar[0].title);
+    });
+    it("should navigate to the movies detail page when click on the button", () => {
+      cy.get(".card").eq(0).find("button").click();
+      cy.url().should("include", `/movies/${similar[0].id}`);
+      cy.get("h2").contains(similar[0].title);
     });
   });
  });

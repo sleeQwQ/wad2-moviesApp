@@ -7,21 +7,15 @@ const MoviePage = () => {
   const [movie, setMovie] = useState([]);
   useEffect(() => {
     getLatestMovie().then(movie => {
-        try{
-            if(movie.id === undefined){
-              throw new Error("Something Wrong……");
-            } else {
-              setMovie(movie);
-            }
-          } catch(err) {
-            window.location.href = `/error/9`;
-          }    
+        setMovie(movie);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   setTimeout(function(){
-    window.location.href = `/movies/${movie.id}`;
+    if(movie.id !== undefined){
+        window.location.href = `/movies/${movie.id}`;
+    } 
   },2000);
 
   return (
