@@ -5,6 +5,7 @@ let playing;
 let topRated;
 let latest;
 let similar;
+let movie;
 
 describe("Navigation", () => {
   before(() => {
@@ -62,6 +63,15 @@ describe("Navigation", () => {
       .then((response) => {
         similar = response.results;
       });
+    cy.request(
+      `https://api.themoviedb.org/3/movie/${movieId}?api_key=${Cypress.env(
+        "TMDB_KEY"
+      )}`
+    )
+    .its("body")
+    .then((movieDetails) => {
+      movie = movieDetails;
+    });
   });
 
   describe("From the home page", () => {
@@ -268,7 +278,7 @@ describe("Navigation", () => {
     });
     it("should navigate to the similar movie page and change the browser URL", () => {
       cy.url().should("include", `/movies/${movieId}/similar`);
-      cy.get("h2").contains("Similar Movies");
+      cy.get("h2").contains(`Similar Movies of ${movie.title}`);
     });
     it("should navigate to the movies detail page and change the browser URL", () => {
       cy.get(".card").eq(0).find("img").click();
@@ -279,6 +289,23 @@ describe("Navigation", () => {
       cy.get(".card").eq(0).find("button").click();
       cy.url().should("include", `/movies/${similar[0].id}`);
       cy.get("h2").contains(similar[0].title);
+    });
+  });
+  describe("Similar Movie page - No similar movie case", () => {
+    beforeEach(() => {
+      cy.visit(`/movies/682377`);
+      cy.contains("SimilarMovies").click();
+    });
+    it("should show the error page", () => {
+      cy.url().should("include", `/error/3`);
+      cy.get("h1").contains("No Similar Movie Yet");
+      cy.get("h2").contains("Return Main Page Soon……");
+    });
+    it("should return the main page after 2 seconds", () => {
+      cy.wait(2500);
+      cy.url().should("not.include", `/movies`);
+      cy.url().should("not.include", `/similar`);
+      cy.get("h2").contains("No. Movies");
     });
   });
  });

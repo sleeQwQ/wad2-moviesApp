@@ -57,7 +57,7 @@ describe("Movie Details Page", () => {
     // });
   });
 
-  describe("Invaild Movie Id", () => {
+  describe("Invaild Review Id", () => {
     beforeEach(() => {
       cy.visit(`/reviews/11111111111`);
     });

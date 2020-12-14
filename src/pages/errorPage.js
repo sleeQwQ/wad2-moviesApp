@@ -9,6 +9,8 @@ const ErrorPage = props => {
         break;
         case "2": errType = "Invaild Review Id";
         break;
+        case "3": errType = "No Similar Movie Yet";
+        break;
         default: errType = "Something Wrong……";
         break;
     }
