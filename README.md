@@ -45,7 +45,7 @@ Name: Yannan Qian
 ![][latestPage]
 >The page shown when fetching the latest movie.
 
-![][similarMovie]
+![][SimilarMoviesPage]
 >Shows similar movies of a specific movie.
 
 ## Routing.
@@ -172,34 +172,43 @@ Local cypress tests screenshots below:
 ![][movieDetails-pageTests]
 ![][movieCardLogicTests]
 ![][movieReviewPageTests]
-![][navigationTests]
+![][navigationTests1]
+![][navigationTests2]
 
 ### Advanced Testing.
 
 + cypress/integration/movieReviewPage.spec.js - test the movieReview page when the Review id is invalid. 
+![][InvaildReviewID]
 + cypress/integration/movieDetails-page.spec.js - test when a movie has no reviews.
+![][noReviews]
 + cypress/integration/movieDetails-page.spec.js - test the movieDetailsPage when the Movie id is invalid.
+![][InvaildMovieID]
 + cypress/integration/navigation.spec.js - test the similarMoviePage when a movie has no similar movies.
+![][noSimilarMovies]
 
 
 ---------------------------------
 
-[movieDetail]: ./public/movieDetail.png
-[review]: ./public/review.png
-[reviewLink]: ./public/reviewLink.png
-[cardLink]: ./public/cardLink.png
-[stories]: ./public/storybook.png
-[drawer]:
-[latestPage]:
-[similarMovie]:
-[Top-ratedPage]
-[upcomingPage]:
-[watchListPage]:
-[SimilarMoviesButton]:
-[SimilarMoviesPage]:
-[NowplayingPage]:
-[home-pageTests]:
-[movieDetails-pageTests]:
-[movieCardLogicTests]:
-[movieReviewPageTests]:
-[navigationTests]:
+[movieDetail]: ./public/Screenshots/movieDetail.png
+[review]: ./public/Screenshots/review.png
+[reviewLink]: ./public/Screenshots/reviewLink.png
+[cardLink]: ./public/Screenshots/cardLink.png
+[stories]: ./public/Screenshots/storybook.png
+[drawer]: ./public/Screenshots/drawer.png
+[latestPage]: ./public/Screenshots/latestPage.png
+[Top-ratedPage]: ./public/Screenshots/Top-ratedPage.png
+[upcomingPage]: ./public/Screenshots/upcomingPage.png
+[watchListPage]: ./public/Screenshots/watchListPage.png
+[SimilarMoviesButton]: ./public/Screenshots/SimilarMoviesButton.png
+[SimilarMoviesPage]: ./public/Screenshots/SimilarMoviesPage.png
+[NowplayingPage]: ./public/Screenshots/NowplayingPage.png
+[home-pageTests]: ./public/Screenshots/home-pageTests.png
+[movieDetails-pageTests]: ./public/Screenshots/movieDetails-pageTests.png
+[movieCardLogicTests]: ./public/Screenshots/movieCardLogicTests.png
+[movieReviewPageTests]: ./public/Screenshots/movieReviewPageTests.png
+[navigationTests1]: ./public/Screenshots/navigationTests1.png
+[navigationTests2]: ./public/Screenshots/navigationTests2.png
+[InvaildMovieID]: ./public/Screenshots/InvaildMovieID.png
+[noReviews]: ./public/Screenshots/noReviews.png
+[InvaildReviewID]: ./public/Screenshots/InvaildReviewID.png
+[noSimilarMovies]: ./public/Screenshots/noSimilarMovies.png
