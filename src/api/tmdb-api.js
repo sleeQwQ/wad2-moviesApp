@@ -54,7 +54,9 @@ export const getMovies = () => {
 
   export const getLatestMovie = () => {
     return fetch(
-      '/api/latest',{
+      '/api/latest',{headers:{
+        'Authorization': window.localStorage.getItem('token') 
+      },
       method:'get',
       }
     )
